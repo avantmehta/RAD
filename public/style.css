@@ -5,11 +5,17 @@
   --border: #3a332f;
   --text: #f3ece6;
   --text-dim: #b6a99e;
-  --accent: #ff6b57;
-  --accent-2: #ffb35a;
-  --good: #5fd18b;
-  --warn: #f0c94d;
-  --bad: #e5675a;
+  /* Brand palette (watermelon gradient) — 5 swatches, one role each: */
+  --brand-1: #ff6f91; /* deep coral pink */
+  --brand-2: #ff9eb0; /* medium pink */
+  --brand-3: #ffd5dc; /* pale pink */
+  --brand-4: #aeefda; /* pale mint */
+  --brand-5: #4fcda6; /* teal / jade */
+  --accent: var(--brand-2);
+  --accent-2: var(--brand-3);
+  --good: var(--brand-5);
+  --warn: var(--brand-4);
+  --bad: var(--brand-1);
   --radius: 18px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-top: env(safe-area-inset-top, 0px);
@@ -120,7 +126,7 @@ html, body {
 
 .filter-btn.selected {
   border-color: var(--accent);
-  background: rgba(255, 107, 87, 0.14);
+  background: rgba(255, 158, 176, 0.16);
   color: var(--accent);
 }
 
@@ -203,9 +209,9 @@ html, body {
   border-radius: 999px;
   white-space: nowrap;
 }
-.badge.good { background: rgba(95,209,139,0.16); color: var(--good); }
-.badge.warn { background: rgba(240,201,77,0.18); color: var(--warn); }
-.badge.bad  { background: rgba(229,103,90,0.18); color: var(--bad); }
+.badge.good { background: rgba(79,205,166,0.18); color: var(--good); }
+.badge.warn { background: rgba(174,239,218,0.16); color: var(--warn); }
+.badge.bad  { background: rgba(255,111,145,0.18); color: var(--bad); }
 
 .card-meta {
   margin-top: 8px;
