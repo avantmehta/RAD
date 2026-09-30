@@ -15,8 +15,13 @@
 
 
 /* ---- Landing page ---- */
-.landing{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f4f8f6;overflow:hidden}
-.landing-card{width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.landing{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f4f8f6;overflow:hidden}
+.landing-skyline{position:absolute;left:0;right:0;bottom:0;height:30%;overflow:hidden;pointer-events:none;z-index:0;color:var(--g2)}
+.landing-skyline svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:skyline-scroll 50s linear infinite}
+.landing-skyline svg g{fill:currentColor}
+@keyframes skyline-scroll{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.landing-skyline svg{animation:none}}
+.landing-card{position:relative;z-index:1;width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
 .landing-brand{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:26px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px}
 .landing-icon{background:#12684f;border-radius:20px;width:84px;height:84px;display:grid;place-items:center}
 .hf-heart{color:var(--r4)}

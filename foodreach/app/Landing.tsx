@@ -2,10 +2,12 @@
 import Link from 'next/link';
 import {MapPin, ClipboardList, HelpCircle} from 'lucide-react';
 import BrandIcon from '@/components/brand-icon';
+import HartfordSkyline from '@/components/hartford-skyline';
 
 export default function Landing() {
   return (
     <main className="landing">
+      <HartfordSkyline />
       <div className="landing-card">
         <div className="landing-brand">
           <span className="landing-icon"><BrandIcon size={54} /></span>
