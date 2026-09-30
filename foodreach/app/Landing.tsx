@@ -1,13 +1,14 @@
 'use client';
 import Link from 'next/link';
-import {Leaf, MapPin, ClipboardList, HelpCircle} from 'lucide-react';
+import {MapPin, ClipboardList, HelpCircle} from 'lucide-react';
+import BrandIcon from '@/components/brand-icon';
 
 export default function Landing() {
   return (
     <main className="landing">
       <div className="landing-card">
         <div className="landing-brand">
-          <span className="brand-icon"><Leaf size={26} /></span>
+          <span className="brand-icon"><BrandIcon size={26} /></span>
           <span className="landing-name">Heartfood <span className="ct">CT</span></span>
         </div>
         <p className="landing-tag">Find a food trip that fits your day, including the way back.</p>

@@ -34,8 +34,8 @@
 .walk-chips button:hover,
 .walk-chips button:focus-visible,
 .walk-chips button.active {
-  border-color: #12684f;
-  background: #e9f5ef;
+  border-color: var(--g5);
+  background: var(--g1);
   color: #12684f;
 }
 
