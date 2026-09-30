@@ -19,7 +19,7 @@ export default function Landing() {
           <MapPin size={20} /> Find food near me
         </Link>
         <Link href="/plan" className="landing-cta-secondary">
-          <ClipboardList size={18} /> Enter my details
+          <ClipboardList size={18} /> Select preferences
         </Link>
         <Link href="/how-it-works" className="landing-link">
           <HelpCircle size={15} /> How Heartfood works

@@ -15,7 +15,7 @@ export default function HowItWorks(){
     <span className="step"><MapPin size={18}/></span>
     <div>
      <h2>1. Tell us where you are</h2>
-     <p>Tap <strong>Find food near me</strong> and we use your phone&apos;s location automatically &mdash; or tap <strong>Enter my details</strong> to pick a starting point, how you&apos;ll travel (bus, walking, or car), and when you need to leave and be back.</p>
+     <p>Tap <strong>Find food near me</strong> and we use your phone&apos;s location automatically &mdash; or tap <strong>Select preferences</strong> to pick a starting point, how you&apos;ll travel (bus, walking, or car), and when you need to leave and be back.</p>
     </div>
    </div>
    <div className="howto-step">
@@ -43,7 +43,7 @@ export default function HowItWorks(){
 
   <div className="howto-ctas">
    <Link href="/plan?quick=1" className="landing-cta-primary"><MapPin size={20}/> Find food near me</Link>
-   <Link href="/plan" className="landing-cta-secondary"><ClipboardList size={18}/> Enter my details</Link>
+   <Link href="/plan" className="landing-cta-secondary"><ClipboardList size={18}/> Select preferences</Link>
   </div>
  </main>
  </>
