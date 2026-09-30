@@ -2,7 +2,9 @@
   "_meta": {
     "mock": true,
     "note": "PLACEHOLDER DATA for front-end development only. Names/hours/addresses below are illustrative, not verified real sites. Rohan: replace this file with the validated dataset in the same schema (see detailed-definition.md, section 3) — the front end reads the `sites` array as-is, so no code changes should be needed on swap-in beyond dropping in the real file.",
-    "estimated_cost_note": "`estimated_cost` is a NEW placeholder field (added for the budget filter) — a rough dollar estimate of a typical trip's cost, 0 for anything free (pantries, mobile markets, the community fridge). It's invented for demo purposes, not sourced from anywhere real yet. Needs a team decision on where real cost data would come from (self-reported? USDA basket estimates?) before this goes beyond the hackathon demo."
+    "estimated_cost_note": "`estimated_cost` is a NEW placeholder field (added for the budget filter) — a rough dollar estimate of a typical trip's cost, 0 for anything free (pantries, mobile markets, the community fridge). It's invented for demo purposes, not sourced from anywhere real yet. Needs a team decision on where real cost data would come from (self-reported? USDA basket estimates?) before this goes beyond the hackathon demo.",
+    "food_types_note": "`food_types` (array: any of fresh, non_perishable, prepared) is also a NEW placeholder field, guessed per site from its notes/type rather than verified — Rohan should confirm/correct these during real data curation.",
+    "payment_accepted_note": "`payment_accepted` (array: any of cash, card, snap, wic) is also NEW and guessed, not verified. Free sites (pantries/mobile markets/community fridge) don't need this — the front end treats $0 sites as accepting any payment preference automatically."
   },
   "sites": [
     {
@@ -19,6 +21,7 @@
       "lat": 41.7578, "lng": -72.6934,
       "verified": "2026-09-28",
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "ID requested but not required; first-come first-served"
     },
     {
@@ -35,6 +38,8 @@
       "lat": 41.7663, "lng": -72.6981,
       "verified": "2026-09-29",
       "estimated_cost": 12,
+      "food_types": ["fresh", "non_perishable"],
+      "payment_accepted": ["cash", "card", "snap", "wic"],
       "notes": "Full-price grocer, SNAP/EBT accepted at all registers"
     },
     {
@@ -51,6 +56,7 @@
       "lat": 41.7801, "lng": -72.6893,
       "verified": "2026-09-15",
       "estimated_cost": 0,
+      "food_types": ["fresh"],
       "notes": "Pay-what-you-can produce truck; cash + SNAP"
     },
     {
@@ -67,6 +73,7 @@
       "lat": 41.7534, "lng": -72.6791,
       "verified": "2026-06-02",
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "Volunteer-run; hours can shift with volunteer availability"
     },
     {
@@ -83,6 +90,7 @@
       "lat": 41.7621, "lng": -72.7420,
       "verified": "2026-09-25",
       "estimated_cost": 0,
+      "food_types": ["non_perishable", "fresh"],
       "notes": "Photo ID requested for first visit"
     },
     {
@@ -99,6 +107,8 @@
       "lat": 41.7658, "lng": -72.6734,
       "verified": "2026-09-30",
       "estimated_cost": 18,
+      "food_types": ["fresh", "non_perishable"],
+      "payment_accepted": ["cash", "card", "snap"],
       "notes": "Higher prices than suburban grocers; open late every day"
     },
     {
@@ -115,6 +125,7 @@
       "lat": 41.7423, "lng": -72.6798,
       "verified": null,
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "Hours unconfirmed at curation time — call ahead"
     },
     {
@@ -131,6 +142,8 @@
       "lat": 41.8281, "lng": -72.7218,
       "verified": "2026-09-20",
       "estimated_cost": 9,
+      "food_types": ["fresh", "non_perishable"],
+      "payment_accepted": ["cash", "card", "snap"],
       "notes": "SNAP/EBT accepted"
     },
     {
@@ -147,6 +160,7 @@
       "lat": 41.7759, "lng": -72.5215,
       "verified": "2026-08-10",
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "Bring your own bags if possible"
     },
     {
@@ -163,6 +177,8 @@
       "lat": 41.7412, "lng": -72.7186,
       "verified": "2026-09-27",
       "estimated_cost": 14,
+      "food_types": ["fresh", "non_perishable"],
+      "payment_accepted": ["cash", "card", "snap", "wic"],
       "notes": "SNAP/EBT accepted; salad bar and hot foods excluded from SNAP"
     },
     {
@@ -179,6 +195,7 @@
       "lat": 41.7502, "lng": -72.6712,
       "verified": "2026-09-10",
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "Family-size limits apply"
     },
     {
@@ -195,6 +212,7 @@
       "lat": 41.7637, "lng": -72.6126,
       "verified": "2026-09-22",
       "estimated_cost": 0,
+      "food_types": ["non_perishable", "fresh"],
       "notes": "Walk-ins welcome, no appointment"
     },
     {
@@ -211,6 +229,8 @@
       "lat": 41.7789, "lng": -72.6771,
       "verified": "2026-09-18",
       "estimated_cost": 7,
+      "food_types": ["non_perishable"],
+      "payment_accepted": ["cash", "snap"],
       "notes": "Small format store; limited fresh produce"
     },
     {
@@ -227,6 +247,7 @@
       "lat": 41.7481, "lng": -72.7038,
       "verified": "2026-05-14",
       "estimated_cost": 0,
+      "food_types": ["non_perishable"],
       "notes": "Thursday evenings only — good for after-work pickup"
     },
     {
@@ -243,6 +264,7 @@
       "lat": 41.7912, "lng": -72.7062,
       "verified": "2026-09-26",
       "estimated_cost": 0,
+      "food_types": ["fresh", "non_perishable"],
       "notes": "Community fridge — take what you need, leave what you can; stock varies hour to hour"
     }
   ]

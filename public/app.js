@@ -10,11 +10,13 @@
 //     updates to reflect the override.
 //
 // BACKEND CONTRACT (for Rohan): `parseInput(text)` turns a typed sentence
-// into {mode, location, when, commute_time, budget}. Right now that's a
-// local mock (MOCK_PARSER below). When the real backend is ready, replace
-// the body of `parseInput` with a fetch to POST /api/parse returning the
-// same shape — nothing else in this file needs to change. See
-// detailed-definition.md for the full schema this reads from sites.json.
+// into {mode, location, availability, commute_time, budget, food_type,
+// payment_type} (any field not mentioned in the text should come back
+// null). Right now that's a local mock (MOCK_PARSER below). When the real
+// backend is ready, replace the body of `parseInput` with a fetch to
+// POST /api/parse returning the same shape — nothing else in this file
+// needs to change. See detailed-definition.md for the full schema this
+// reads from sites.json.
 
 const USE_MOCK_BACKEND = true;
 
@@ -42,7 +44,56 @@ const PROMPTS = [
       { value: Infinity, label: "Flexible", icon: "\u{1F4B0}" },
     ],
   },
+  {
+    id: "food_type",
+    label: "Food type",
+    icon: "\u{1F37D}\u{FE0F}",
+    options: [
+      { value: "fresh", label: "Fresh", icon: "\u{1F966}" },
+      { value: "non_perishable", label: "Non-perishable", icon: "\u{1F96B}" },
+      { value: "prepared", label: "Prepared meals", icon: "\u{1F371}" },
+      { value: "any", label: "Other / any", icon: "❓" },
+    ],
+  },
+  {
+    id: "payment_type",
+    label: "Payment",
+    icon: "\u{1F4B3}",
+    options: [
+      { value: "cash", label: "Cash", icon: "\u{1F4B5}" },
+      { value: "snap", label: "SNAP/EBT", icon: "\u{1F5F3}\u{FE0F}" },
+      { value: "card", label: "Card", icon: "\u{1F4B3}" },
+      { value: "wic", label: "WIC", icon: "\u{1F37C}" },
+    ],
+  },
+  {
+    // Straight from the challenge brief's bonus line: "match hours of
+    // operation to a person's schedule" — this is the user's own
+    // availability, checked against each site's hours (see
+    // AVAILABILITY_TIMES / scoreOpenNow below), not just literal right-now.
+    id: "availability",
+    label: "When can you go?",
+    icon: "\u{1F5D3}\u{FE0F}",
+    options: [
+      { value: "now", label: "Right now", icon: "\u{23F0}" },
+      { value: "afternoon", label: "This afternoon", icon: "☀️" },
+      { value: "evening", label: "This evening", icon: "\u{1F306}" },
+      { value: "tomorrow_am", label: "Tomorrow AM", icon: "\u{1F4C5}" },
+    ],
+  },
 ];
+
+const AVAILABILITY_PHRASES = {
+  now: "now",
+  afternoon: "this afternoon",
+  evening: "this evening",
+  tomorrow_am: "tomorrow morning",
+};
+const AVAILABILITY_TIMES = {
+  afternoon: [14, 0],
+  evening: [18, 0],
+  tomorrow_am: [10, 0],
+};
 
 const NEIGHBORHOOD_CENTROIDS = {
   "frog hollow": [41.7578, -72.6934],
@@ -70,7 +121,10 @@ const DEFAULT_CENTROID = NEIGHBORHOOD_CENTROIDS["downtown"];
 // text. `source[field]` tracks which one set it last, purely for the
 // filter-button highlight — the state value itself is always "current
 // truth" regardless of source, and the most recent input always wins.
-const state = { commute_time: null, budget: null, mode: null, location: null, when: "now" };
+const state = {
+  commute_time: null, budget: null, mode: null, location: null,
+  food_type: null, payment_type: null, availability: "now",
+};
 const source = {};
 
 let SITES = [];
@@ -150,8 +204,9 @@ function syncFilterUI() {
     const overrideTag = source[prompt.id] === "text" ? '<span class="filter-source">from your text</span>' : "";
     label.innerHTML = `<span>${prompt.icon} ${escapeHtml(prompt.label)}</span>${overrideTag}`;
     group.querySelectorAll(".filter-btn").forEach((btn) => {
-      const val = parseFloat(btn.dataset.value);
-      btn.classList.toggle("selected", current !== null && val === current);
+      // String comparison so this works for numbers, strings, and Infinity
+      // alike (dataset attributes are always strings anyway).
+      btn.classList.toggle("selected", current !== null && String(current) === btn.dataset.value);
     });
   });
 }
@@ -194,7 +249,7 @@ async function handleUserText(text) {
   const parsed = await parseInput(text);
 
   // Text overrides: only touch fields the text actually spoke to.
-  ["mode", "location", "when", "commute_time", "budget"].forEach((key) => {
+  ["mode", "location", "availability", "commute_time", "budget", "food_type", "payment_type"].forEach((key) => {
     if (parsed[key] !== null && parsed[key] !== undefined) {
       state[key] = parsed[key];
       source[key] = "text";
@@ -234,9 +289,11 @@ function MOCK_PARSER(text) {
     if (nearMatch) location = nearMatch[1].trim();
   }
 
-  let when = null;
-  if (/tomorrow/.test(lower)) when = "tomorrow";
-  else if (/\bnow\b|\btoday\b/.test(lower)) when = "now";
+  let availability = null;
+  if (/tomorrow/.test(lower)) availability = "tomorrow_am";
+  else if (/\bthis evening\b|\btonight\b/.test(lower)) availability = "evening";
+  else if (/\bthis afternoon\b/.test(lower)) availability = "afternoon";
+  else if (/\bnow\b|\btoday\b|\bright now\b/.test(lower)) availability = "now";
 
   // "only have 10 minutes", "20 min", "40+ minutes", "half an hour"
   let commute_time = null;
@@ -258,7 +315,18 @@ function MOCK_PARSER(text) {
     budget = Infinity;
   }
 
-  return { mode, location, when, commute_time, budget };
+  let food_type = null;
+  if (/\bfresh\b|\bproduce\b|\bvegetables?\b|\bfruit/.test(lower)) food_type = "fresh";
+  else if (/non-?perishable|\bcanned\b|\bshelf.stable\b/.test(lower)) food_type = "non_perishable";
+  else if (/\bprepared\b|\bhot meal/.test(lower)) food_type = "prepared";
+
+  let payment_type = null;
+  if (/\bsnap\b|\bebt\b/.test(lower)) payment_type = "snap";
+  else if (/\bwic\b/.test(lower)) payment_type = "wic";
+  else if (/\bcard\b|\bcredit\b|\bdebit\b/.test(lower)) payment_type = "card";
+  else if (/\bcash\b/.test(lower)) payment_type = "cash";
+
+  return { mode, location, availability, commute_time, budget, food_type, payment_type };
 }
 
 // ---- geo + ranking ----
@@ -281,30 +349,44 @@ function haversineMiles(a, b) {
   return R * 2 * Math.asin(Math.sqrt(h));
 }
 
-// v1 open-now confidence score — see detailed-definition.md section 4
-function scoreOpenNow(site, now) {
+// Turns the user's chosen availability slot into an actual reference
+// moment (today at a fixed hour, or tomorrow morning) so hours get
+// checked against WHEN THE USER CAN GO, not just this literal instant.
+function resolveReferenceTime(availability) {
+  if (!availability || availability === "now") return new Date();
+  const ref = new Date();
+  const [h, m] = AVAILABILITY_TIMES[availability] || [0, 0];
+  if (availability === "tomorrow_am") ref.setDate(ref.getDate() + 1);
+  ref.setHours(h, m, 0, 0);
+  return ref;
+}
+
+// v1 open-now confidence score — see detailed-definition.md section 4.
+// `refTime` is the moment to check hours against (see resolveReferenceTime);
+// `phrase` is just for human-readable labels ("Likely open this evening").
+function scoreOpenNow(site, refTime, phrase) {
   const dayKeys = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
-  const day = dayKeys[now.getDay()];
+  const day = dayKeys[refTime.getDay()];
   const hours = site.hours ? site.hours[day] : null;
   const hasAnyHours = site.hours && Object.values(site.hours).some(Boolean);
 
   if (!hours) {
-    if (hasAnyHours) return { score: 0, label: "Closed today" };
+    if (hasAnyHours) return { score: 0, label: `Closed ${phrase}` };
     return { score: 40, label: "Hours unverified" };
   }
 
   const [openStr, closeStr] = hours;
-  const nowMin = now.getHours() * 60 + now.getMinutes();
+  const refMin = refTime.getHours() * 60 + refTime.getMinutes();
   const [oh, om] = openStr.split(":").map(Number);
   const [ch, cm] = closeStr.split(":").map(Number);
-  const isOpen = nowMin >= oh * 60 + om && nowMin < ch * 60 + cm;
-  if (!isOpen) return { score: 0, label: "Closed now" };
+  const isOpen = refMin >= oh * 60 + om && refMin < ch * 60 + cm;
+  if (!isOpen) return { score: 0, label: `Closed ${phrase}` };
 
   const daysSinceVerified = site.verified
-    ? (now - new Date(site.verified)) / 86400000
+    ? (refTime - new Date(site.verified)) / 86400000
     : Infinity;
-  if (daysSinceVerified <= 14) return { score: 95, label: "Likely open" };
-  if (daysSinceVerified <= 45) return { score: 70, label: "Probably open" };
+  if (daysSinceVerified <= 14) return { score: 95, label: `Likely open ${phrase}` };
+  if (daysSinceVerified <= 45) return { score: 70, label: `Probably open ${phrase}` };
   return { score: 55, label: "Hours stale" };
 }
 
@@ -339,17 +421,25 @@ function reachability(site, mode, distanceMiles) {
 }
 
 function rankSites(sites, opts) {
-  const { mode, originCoords, now, commuteBudget, budget } = opts;
+  const { mode, originCoords, commuteBudget, budget, foodType, paymentType, availability } = opts;
+  const refTime = resolveReferenceTime(availability);
+  const phrase = AVAILABILITY_PHRASES[availability] || "now";
   return sites
     .map((site) => {
       const distance = haversineMiles(originCoords, [site.lat, site.lng]);
       const reach = reachability(site, mode, distance);
-      const open = scoreOpenNow(site, now);
+      const open = scoreOpenNow(site, refTime, phrase);
       const cost = site.estimated_cost ?? 0;
       const withinTime = commuteBudget == null || reach.minutes <= commuteBudget;
       const withinBudget = budget == null || budget === Infinity || cost <= budget;
       const isOpen = open.score > 0;
-      return { site, distance, reach, open, cost, feasible: reach.feasible && withinTime && withinBudget && isOpen };
+      const matchesFoodType =
+        !foodType || foodType === "any" || (site.food_types && site.food_types.includes(foodType));
+      // Free sites need no payment method at all, so any payment preference is satisfied.
+      const matchesPayment =
+        !paymentType || cost === 0 || (site.payment_accepted && site.payment_accepted.includes(paymentType));
+      const feasible = reach.feasible && withinTime && withinBudget && isOpen && matchesFoodType && matchesPayment;
+      return { site, distance, reach, open, cost, feasible };
     })
     .sort((a, b) => {
       if (a.feasible !== b.feasible) return a.feasible ? -1 : 1;
@@ -370,9 +460,11 @@ function maybeRunSearch() {
   const ranked = rankSites(SITES, {
     mode,
     originCoords,
-    now: new Date(),
     commuteBudget: state.commute_time,
     budget: state.budget,
+    foodType: state.food_type,
+    paymentType: state.payment_type,
+    availability: state.availability,
   });
   const top = ranked.filter((r) => r.feasible).slice(0, 5);
   const shown = top.length ? top : ranked.slice(0, 2);
@@ -387,6 +479,9 @@ function summarize(results, hadFeasibleMatches) {
   const bits = [];
   if (state.commute_time) bits.push(`≤${state.commute_time === 999 ? "40+" : state.commute_time} min`);
   if (state.budget) bits.push(state.budget === Infinity ? "any budget" : `≤$${state.budget}`);
+  if (state.food_type && state.food_type !== "any") bits.push(state.food_type.replace("_", "-"));
+  if (state.payment_type) bits.push(state.payment_type.toUpperCase());
+  if (state.availability && state.availability !== "now") bits.push(AVAILABILITY_PHRASES[state.availability]);
   const criteria = bits.length ? ` (${bits.join(", ")})` : "";
   const prefix = hadFeasibleMatches
     ? `✅ ${results.length} option${results.length === 1 ? "" : "s"} match${results.length === 1 ? "es" : ""}${criteria}. `
@@ -404,6 +499,9 @@ function renderResults(results) {
   resultsEl.innerHTML = "";
   results.forEach((r) => resultsEl.appendChild(renderCard(r)));
 }
+
+const FOOD_TYPE_ICON = { fresh: "\u{1F966}", non_perishable: "\u{1F96B}", prepared: "\u{1F371}" };
+const PAYMENT_ICON = { cash: "\u{1F4B5}", card: "\u{1F4B3}", snap: "\u{1F5F3}️", wic: "\u{1F37C}" };
 
 function renderCard(r) {
   const { site, reach, open, cost } = r;
@@ -434,6 +532,10 @@ function renderCard(r) {
     <div class="card-meta">
       <span>\u{1F4CD} ${escapeHtml(site.address)}, ${escapeHtml(site.town)}</span>
       ${site.phone ? `<span>\u{1F4DE} ${escapeHtml(site.phone)}</span>` : ""}
+    </div>
+    <div class="card-meta">
+      ${(site.food_types || []).map((f) => `<span>${FOOD_TYPE_ICON[f] || "\u{1F374}"} ${escapeHtml(f.replace("_", "-"))}</span>`).join("")}
+      ${(site.payment_accepted || []).map((p) => `<span>${PAYMENT_ICON[p] || "\u{1F4B3}"} ${p.toUpperCase()}</span>`).join("")}
     </div>
     ${site.notes ? `<div class="card-note">\u{1F4AC} ${escapeHtml(site.notes)}</div>` : ""}
   `;
