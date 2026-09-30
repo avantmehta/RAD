@@ -46,3 +46,23 @@
 .walk-chips button {
   padding: 8px 3px;
 }
+
+.walk-slider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.walk-slider input[type="range"] {
+  flex: 1;
+  accent-color: #12684f;
+  height: 6px;
+}
+
+.walk-slider output {
+  font-weight: 700;
+  font-size: 14px;
+  color: #12684f;
+  min-width: 50px;
+  text-align: right;
+}
