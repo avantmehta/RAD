@@ -11,7 +11,7 @@ export default function Landing() {
           <span className="landing-icon"><BrandIcon size={54} /></span>
           <span className="landing-name"><span className="hf-heart">Heart</span><span className="hf-food">food</span></span>
         </div>
-        <p className="landing-tag">Meet the Meat!</p>
+        <p className="landing-tag">Ask naturally. Get there reliably.</p>
 
         <Link href="/plan?quick=1" className="landing-cta-primary">
           <MapPin size={20} /> Find food near me
