@@ -17,8 +17,11 @@
 /* ---- Landing page ---- */
 .landing{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f4f8f6;overflow:hidden}
 .landing-card{width:100%;max-width:380px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
-.landing-brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;letter-spacing:-.8px;margin-bottom:4px}
-.landing-tag{margin:2px 0 18px;font-size:13.5px;line-height:1.45;color:#536779}
+.landing-brand{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:26px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px}
+.landing-icon{background:#12684f;border-radius:20px;width:84px;height:84px;display:grid;place-items:center}
+.hf-heart{color:var(--r4)}
+.hf-food{color:#12684f}
+.landing-tag{margin:2px 0 18px;font-size:15px;font-weight:700;line-height:1.45;color:#536779}
 .landing-cta-primary{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:14px;border-radius:12px;background:#12684f;color:white;font-weight:800;font-size:15px;text-decoration:none;box-shadow:0 3px 0 #0b4634}
 .landing-cta-primary:active{transform:translateY(2px);box-shadow:0 1px 0 #0b4634}
 .landing-cta-secondary{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;padding:11px;border-radius:12px;border:1.5px solid var(--g3);background:white;color:#12684f;font-weight:700;font-size:14px;text-decoration:none}

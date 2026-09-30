@@ -8,10 +8,10 @@ export default function Landing() {
     <main className="landing">
       <div className="landing-card">
         <div className="landing-brand">
-          <span className="brand-icon"><BrandIcon size={26} /></span>
-          <span className="landing-name">Heartfood <span className="ct">CT</span></span>
+          <span className="landing-icon"><BrandIcon size={54} /></span>
+          <span className="landing-name"><span className="hf-heart">Heart</span><span className="hf-food">food</span></span>
         </div>
-        <p className="landing-tag">Find a food trip that fits your day, including the way back.</p>
+        <p className="landing-tag">Meet the Meat!</p>
 
         <Link href="/plan?quick=1" className="landing-cta-primary">
           <MapPin size={20} /> Find food near me
