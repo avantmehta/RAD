@@ -67,6 +67,17 @@ const PROMPTS = [
     ],
   },
   {
+    id: "diet_type",
+    label: "Diet type",
+    icon: "\u{1F957}",
+    options: [
+      { value: "vegetarian", label: "Vegetarian", icon: "\u{1F96C}" },
+      { value: "vegan", label: "Vegan", icon: "\u{1F331}" },
+      { value: "keto", label: "Keto", icon: "\u{1F969}" },
+      { value: "any", label: "No restriction", icon: "\u{1F37D}\u{FE0F}" },
+    ],
+  },
+  {
     // Straight from the challenge brief's bonus line: "match hours of
     // operation to a person's schedule" — this is the user's own
     // availability, checked against each site's hours (see
@@ -132,7 +143,7 @@ const DEFAULT_CENTROID = NEIGHBORHOOD_CENTROIDS["downtown"];
 // truth" regardless of source, and the most recent input always wins.
 const state = {
   commute_time: null, budget: null, mode: null, location: null,
-  food_type: null, payment_type: null, availability: "now",
+  food_type: null, payment_type: null, availability: "now", diet_type: null,
 };
 const source = {};
 
@@ -384,7 +395,7 @@ async function handleUserText(text) {
   const parsed = await parseInput(text);
 
   // Text overrides: only touch fields the text actually spoke to.
-  ["mode", "location", "availability", "commute_time", "budget", "food_type", "payment_type"].forEach((key) => {
+  ["mode", "location", "availability", "commute_time", "budget", "food_type", "payment_type", "diet_type"].forEach((key) => {
     if (parsed[key] !== null && parsed[key] !== undefined) {
       state[key] = parsed[key];
       source[key] = "text";
@@ -461,7 +472,13 @@ function MOCK_PARSER(text) {
   else if (/\bcard\b|\bcredit\b|\bdebit\b/.test(lower)) payment_type = "card";
   else if (/\bcash\b/.test(lower)) payment_type = "cash";
 
-  return { mode, location, availability, commute_time, budget, food_type, payment_type };
+  let diet_type = null;
+  if (/\bvegan\b/.test(lower)) diet_type = "vegan";
+  else if (/\bvegetarian\b/.test(lower)) diet_type = "vegetarian";
+  else if (/\bketo\b/.test(lower)) diet_type = "keto";
+  else if (/\bno (diet|dietary) restriction/.test(lower) || /\banything\b/.test(lower)) diet_type = "any";
+
+  return { mode, location, availability, commute_time, budget, food_type, payment_type, diet_type };
 }
 
 // ---- geo + ranking ----
@@ -562,7 +579,7 @@ function getWeight(id) {
 const clamp01 = (n) => Math.max(0, Math.min(1, n));
 
 function rankSites(sites, opts) {
-  const { mode, originCoords, commuteBudget, budget, foodType, paymentType, availability } = opts;
+  const { mode, originCoords, commuteBudget, budget, foodType, paymentType, availability, dietType } = opts;
   const refTime = resolveReferenceTime(availability);
   const phrase = AVAILABILITY_PHRASES[availability] || "now";
 
@@ -590,7 +607,9 @@ function rankSites(sites, opts) {
       // Free sites need no payment method at all, so any payment preference is satisfied.
       const matchesPayment =
         !paymentType || cost === 0 || (site.payment_accepted && site.payment_accepted.includes(paymentType));
-      const feasible = reach.feasible && withinTime && withinBudget && isOpen && matchesFoodType && matchesPayment;
+      const matchesDiet =
+        !dietType || dietType === "any" || (site.diet_options && site.diet_options.includes(dietType));
+      const feasible = reach.feasible && withinTime && withinBudget && isOpen && matchesFoodType && matchesPayment && matchesDiet;
 
       const timeCloseness = commuteBudget ? clamp01(1 - reach.minutes / commuteBudget) : 0.5;
       const budgetHeadroom = budget && budget !== Infinity ? clamp01(1 - cost / budget) : 0.5;
@@ -625,6 +644,7 @@ function maybeRunSearch() {
     foodType: state.food_type,
     paymentType: state.payment_type,
     availability: state.availability,
+    dietType: state.diet_type,
   });
   const top = ranked.filter((r) => r.feasible).slice(0, 5);
   const shown = top.length ? top : ranked.slice(0, 2);
@@ -641,6 +661,7 @@ function summarize(results, hadFeasibleMatches) {
   if (state.budget) bits.push(state.budget === Infinity ? "any budget" : `≤$${state.budget}`);
   if (state.food_type && state.food_type !== "any") bits.push(state.food_type.replace("_", "-"));
   if (state.payment_type) bits.push(state.payment_type.toUpperCase());
+  if (state.diet_type && state.diet_type !== "any") bits.push(state.diet_type);
   if (state.availability && state.availability !== "now") bits.push(AVAILABILITY_PHRASES[state.availability]);
   const criteria = bits.length ? ` (${bits.join(", ")})` : "";
   const prefix = hadFeasibleMatches
@@ -662,6 +683,7 @@ function renderResults(results) {
 
 const FOOD_TYPE_ICON = { fresh: "\u{1F966}", non_perishable: "\u{1F96B}", prepared: "\u{1F371}" };
 const PAYMENT_ICON = { cash: "\u{1F4B5}", card: "\u{1F4B3}", snap: "\u{1F5F3}️", wic: "\u{1F37C}" };
+const DIET_ICON = { vegetarian: "\u{1F96C}", vegan: "\u{1F331}", keto: "\u{1F969}" };
 
 function renderCard(r) {
   const { site, reach, open, cost } = r;
@@ -696,6 +718,7 @@ function renderCard(r) {
     <div class="card-meta">
       ${(site.food_types || []).map((f) => `<span>${FOOD_TYPE_ICON[f] || "\u{1F374}"} ${escapeHtml(f.replace("_", "-"))}</span>`).join("")}
       ${(site.payment_accepted || []).map((p) => `<span>${PAYMENT_ICON[p] || "\u{1F4B3}"} ${p.toUpperCase()}</span>`).join("")}
+      ${(site.diet_options || []).map((d) => `<span>${DIET_ICON[d] || "\u{1F957}"} ${escapeHtml(d)}</span>`).join("")}
     </div>
     ${site.notes ? `<div class="card-note">\u{1F4AC} ${escapeHtml(site.notes)}</div>` : ""}
   `;
