@@ -6,6 +6,12 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8642", "--directory", "public"],
       "port": 8642
+    },
+    {
+      "name": "foodreach-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "foodreach", "run", "dev"],
+      "port": 5173
     }
   ]
 }
