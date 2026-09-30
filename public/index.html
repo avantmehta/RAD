@@ -11,17 +11,21 @@
   <div class="app">
     <header class="app-header">
       <div class="brand">
-        <span class="brand-mark">&#10084;</span>
+        <span class="brand-mark">&#10084;&#65039;</span>
         <span class="brand-name">Heartfood</span>
       </div>
-      <span class="brand-tag">Greater Hartford</span>
+      <span class="brand-tag">&#128205; Greater Hartford</span>
     </header>
 
-    <main id="thread" class="thread" aria-live="polite">
-      <!-- messages injected by app.js -->
-    </main>
+    <div id="status" class="status">&#128075; Tap your answers below, or just tell me what's up.</div>
 
-    <div id="chips" class="chips"></div>
+    <div id="filters" class="filters">
+      <!-- prompt button-groups injected by app.js from the PROMPTS config -->
+    </div>
+
+    <main id="results" class="results-area" aria-live="polite">
+      <!-- result cards injected by app.js -->
+    </main>
 
     <form id="composer" class="composer">
       <button type="button" id="locate-btn" class="icon-btn" title="Use my location" aria-label="Use my location">
@@ -31,7 +35,7 @@
         id="composer-input"
         type="text"
         autocomplete="off"
-        placeholder="I don't have a car, I'm near Park St…"
+        placeholder="Anything else? e.g. near Park St, no car…"
       />
       <button type="submit" class="send-btn" aria-label="Send">&#10148;</button>
     </form>
