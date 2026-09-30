@@ -7,6 +7,7 @@
 <title>Heartfood — food, reachable</title>
 <link rel="icon" href="logo.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="style.css" />
+<script type="module" src="analytics.js"></script>
 </head>
 <body>
   <div class="app landing">
@@ -16,7 +17,7 @@
       <p class="landing-tag">Food within your reach.</p>
       <span class="brand-tag">&#128205; Greater Hartford</span>
 
-      <a class="cta-btn" href="app.html">&#128269; Find food</a>
+      <a class="cta-btn" id="find-food-btn" href="app.html">&#128269; Find food</a>
       <button type="button" id="how-it-works-btn" class="secondary-btn">&#10067; How does this app work?</button>
     </div>
 
@@ -41,11 +42,17 @@
     const howBtn = document.getElementById("how-it-works-btn");
     const howModal = document.getElementById("how-it-works-modal");
     const howClose = document.getElementById("how-it-works-close");
-    howBtn.addEventListener("click", () => howModal.classList.remove("hidden"));
+    const findFoodBtn = document.getElementById("find-food-btn");
+
+    howBtn.addEventListener("click", () => {
+      howModal.classList.remove("hidden");
+      window.logHeartfoodEvent?.("how_it_works_opened");
+    });
     howClose.addEventListener("click", () => howModal.classList.add("hidden"));
     howModal.addEventListener("click", (e) => {
       if (e.target === howModal) howModal.classList.add("hidden");
     });
+    findFoodBtn.addEventListener("click", () => window.logHeartfoodEvent?.("find_food_clicked"));
   </script>
 </body>
 </html>

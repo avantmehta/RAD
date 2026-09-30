@@ -248,6 +248,7 @@ function syncFilterUI() {
 function openCriteriaModal() {
   renderCriteriaModal();
   criteriaModal.classList.remove("hidden");
+  window.logHeartfoodEvent?.("criteria_panel_opened");
 }
 
 function closeCriteriaModal() {
@@ -355,6 +356,7 @@ function addCustomCriterion() {
   newCritOptions.value = "";
   renderCriteriaModal();
   renderFilters();
+  window.logHeartfoodEvent?.("custom_criterion_added", { label });
 }
 
 function onLocate() {
@@ -370,6 +372,7 @@ function onLocate() {
       source.location = "button";
       locateBtn.textContent = "\u{1F4CD}";
       statusEl.textContent = "\u{1F4CD} Using your current location.";
+      window.logHeartfoodEvent?.("locate_used");
       maybeRunSearch();
     },
     () => {
@@ -405,6 +408,7 @@ async function handleUserText(text) {
 
   syncFilterUI();
   maybeRunSearch();
+  window.logHeartfoodEvent?.("text_query_submitted");
 }
 
 async function parseInput(text) {
@@ -651,6 +655,7 @@ function maybeRunSearch() {
 
   statusEl.textContent = summarize(shown, top.length > 0);
   renderResults(shown);
+  window.logHeartfoodEvent?.("search_results_shown", { count: shown.length, had_exact_matches: top.length > 0 });
 }
 
 function summarize(results, hadFeasibleMatches) {
