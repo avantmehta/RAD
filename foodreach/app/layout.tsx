@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./enhancements.css";
 import "./directory-print.css";
-import AppTools from "./app-tools";
 
 export const metadata: Metadata = {
   title: "Heartfood CT | Greater Hartford",
@@ -23,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased"><AppTools/>{children}</body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

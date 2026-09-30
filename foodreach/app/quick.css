@@ -30,6 +30,7 @@
 
 .quick-grid button:hover,
 .quick-grid button:focus-visible,
+.quick-grid button.active,
 .walk-chips button:hover,
 .walk-chips button:focus-visible,
 .walk-chips button.active {

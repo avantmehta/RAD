@@ -1,1 +1,1 @@
-import Heartfood from './foodreach'; export default function Home(){return <Heartfood/>}
+import Landing from './Landing'; export default function Home(){return <Landing/>}
