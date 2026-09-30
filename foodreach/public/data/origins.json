@@ -1,0 +1,29 @@
+[
+  {
+    "id": "union",
+    "name": "Hartford Union Station",
+    "address": "1 Union Place, Hartford, CT",
+    "lat": 41.768725368471,
+    "lon": -72.681374871132,
+    "matchedAddress": "1 UNION PL, HARTFORD, CT, 06103",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=1+Union+Place%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "library",
+    "name": "Hartford Public Library \u2014 Downtown",
+    "address": "500 Main Street, Hartford, CT 06103",
+    "lat": 41.758997760995,
+    "lon": -72.64383902075,
+    "matchedAddress": "500 MAIN ST, HARTFORD, CT, 06108",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=500+Main+Street%2C+Hartford%2C+CT+06103&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "albany",
+    "name": "Albany Branch Library",
+    "address": "1250 Albany Avenue, Hartford, CT",
+    "lat": 41.782452220683,
+    "lon": -72.696772283382,
+    "matchedAddress": "1250 ALBANY AVE, HARTFORD, CT, 06112",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=1250+Albany+Avenue%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  }
+]

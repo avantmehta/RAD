@@ -1,0 +1,472 @@
+[
+  {
+    "id": "manna",
+    "name": "MANNA Community Pantry",
+    "town": "Hartford",
+    "address": "55 Bartholomew Avenue, Hartford, CT",
+    "phone": "860-728-3201",
+    "schedule": "Mon\u2013Thu 9:30\u201311:30 and 13:00\u201317:00",
+    "windows": [
+      {
+        "day": 1,
+        "open": "09:30",
+        "close": "11:30"
+      },
+      {
+        "day": 2,
+        "open": "09:30",
+        "close": "11:30"
+      },
+      {
+        "day": 3,
+        "open": "09:30",
+        "close": "11:30"
+      },
+      {
+        "day": 4,
+        "open": "09:30",
+        "close": "11:30"
+      },
+      {
+        "day": 1,
+        "open": "13:00",
+        "close": "17:00"
+      },
+      {
+        "day": 2,
+        "open": "13:00",
+        "close": "17:00"
+      },
+      {
+        "day": 3,
+        "open": "13:00",
+        "close": "17:00"
+      },
+      {
+        "day": 4,
+        "open": "13:00",
+        "close": "17:00"
+      }
+    ],
+    "source": "https://handsonhartford.org/programs/community-pantry/",
+    "notes": "Emergency bags available to Connecticut residents. Call about pantry enrollment. Official assistance page lists noon instead of 11:30; using earlier cutoff.",
+    "residency": null,
+    "appointment": false,
+    "conflict": true,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.755888994884,
+    "lon": -72.703321383498,
+    "secondarySource": "https://handsonhartford.org/assistance/",
+    "matchedAddress": "55 BARTHOLOMEW AVE, HARTFORD, CT, 06106",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=55+Bartholomew+Avenue%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "west",
+    "name": "West Hartford Food Pantry",
+    "town": "West Hartford",
+    "address": "50 South Main Street, West Hartford, CT",
+    "phone": "860-561-7580",
+    "schedule": "Tue 15:30\u201317:00 \u00b7 Wed 09:00\u201310:30 \u00b7 Fri 10:30\u201312:00",
+    "windows": [
+      {
+        "day": 2,
+        "open": "15:30",
+        "close": "17:00"
+      },
+      {
+        "day": 3,
+        "open": "09:00",
+        "close": "10:30"
+      },
+      {
+        "day": 5,
+        "open": "10:30",
+        "close": "12:00"
+      }
+    ],
+    "source": "https://www.westhartfordct.gov/town-departments/social-services/food-resources",
+    "notes": "Registration, income criteria, photo ID and local address evidence required. Holiday/weather closures apply.",
+    "residency": "West Hartford",
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.758477675639,
+    "lon": -72.742599397581,
+    "matchedAddress": "50 S MAIN ST, WEST HARTFORD, CT, 06107",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=50+South+Main+Street%2C+West+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "east",
+    "name": "East Hartford Town Food Pantry",
+    "town": "East Hartford",
+    "address": "50 Chapman Place, East Hartford, CT",
+    "phone": "860-291-7248",
+    "schedule": "2nd/4th Thu 16:00\u201317:00 \u00b7 3rd Mon 11:30\u201312:30",
+    "windows": [
+      {
+        "day": 4,
+        "nth": [
+          2,
+          4
+        ],
+        "open": "16:00",
+        "close": "17:00"
+      },
+      {
+        "day": 1,
+        "nth": [
+          3
+        ],
+        "open": "11:30",
+        "close": "12:30"
+      }
+    ],
+    "source": "https://www.easthartfordct.gov/FoodPantry",
+    "notes": "Connecticut residents. First come, first served; distribution can end when supplies run out.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.772692936866,
+    "lon": -72.64422575643,
+    "matchedAddress": "50 CHAPMAN PL, EAST HARTFORD, CT, 06108",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=50+Chapman+Place%2C+East+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "bloom",
+    "name": "Bloomfield Food Bank",
+    "town": "Bloomfield",
+    "address": "330 Park Avenue, Bloomfield, CT",
+    "phone": "860-242-1895",
+    "schedule": "Wed 13:00\u201315:00 \u00b7 Fri 10:00\u201312:00",
+    "windows": [
+      {
+        "day": 3,
+        "open": "13:00",
+        "close": "15:00"
+      },
+      {
+        "day": 5,
+        "open": "10:00",
+        "close": "12:00"
+      }
+    ],
+    "source": "https://www.bloomfieldct.gov/425/Food-Resources",
+    "notes": "Residency proof and application required; two visits monthly. Evening hours suspended per July 2026 notice.",
+    "residency": "Bloomfield",
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.822589581975,
+    "lon": -72.713050127914,
+    "matchedAddress": "330 PARK AVE, BLOOMFIELD, CT, 06002",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=330+Park+Avenue%2C+Bloomfield%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "newington",
+    "name": "Newington Food Bank",
+    "town": "Newington",
+    "address": "200 Garfield Street, Newington, CT",
+    "phone": "860-665-8590",
+    "schedule": "Tue 12:00\u201315:00 \u00b7 Thu 09:00\u201312:00",
+    "windows": [
+      {
+        "day": 2,
+        "open": "12:00",
+        "close": "15:00"
+      },
+      {
+        "day": 4,
+        "open": "09:00",
+        "close": "12:00"
+      }
+    ],
+    "source": "https://www.newingtonct.gov/2281/Food-Bank",
+    "notes": "Call for registration and monthly pickup. Residency, income, assets and household documentation required.",
+    "residency": "Newington",
+    "appointment": true,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.694170273739,
+    "lon": -72.731546208714,
+    "matchedAddress": "200 GARFIELD, NEWINGTON, CT, 06111",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=200+Garfield+Street%2C+Newington%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "wethersfield",
+    "name": "Wethersfield Food Bank",
+    "town": "Wethersfield",
+    "address": "505 Silas Deane Highway, Wethersfield, CT",
+    "phone": "860-721-2977",
+    "schedule": "Appointment required; current pickup hours unconfirmed",
+    "windows": [],
+    "source": "https://wethersfieldct.gov/331/Social-Youth-Senior-Services",
+    "notes": "Contact Social & Youth Services for food-bank appointment and current hours. Office hours are not treated as distribution hours.",
+    "residency": "Wethersfield",
+    "appointment": true,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.712263763269,
+    "lon": -72.663621553985,
+    "matchedAddress": "505 SILAS DEANE HWY, WETHERSFIELD, CT, 06109",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=505+Silas+Deane+Highway%2C+Wethersfield%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "fern",
+    "name": "Fern Street Food Pantry",
+    "town": "West Hartford",
+    "address": "433 Fern Street, West Hartford, CT",
+    "phone": "860-233-3669",
+    "schedule": "3rd Sat 10:00\u201311:30",
+    "windows": [
+      {
+        "day": 6,
+        "nth": [
+          3
+        ],
+        "open": "10:00",
+        "close": "11:30"
+      }
+    ],
+    "source": "https://www.westhartfordct.gov/town-departments/social-services/food-resources/local-food-options",
+    "notes": "Confirm eligibility before visiting. Mobile truck dates are separate and are not inferred from the pantry schedule.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.769252861734,
+    "lon": -72.740235673043,
+    "matchedAddress": "433 FERN ST, WEST HARTFORD, CT, 06107",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=433+Fern+Street%2C+West+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "anja",
+    "name": "Anja Rosenberg Kosher Food Pantry",
+    "town": "West Hartford",
+    "address": "333 Bloomfield Avenue, West Hartford, CT",
+    "phone": "860-236-1927",
+    "schedule": "By appointment",
+    "windows": [],
+    "source": "https://www.westhartfordct.gov/town-departments/social-services/food-resources/local-food-options",
+    "notes": "Contact Jewish Family Services for eligibility and pickup appointment.",
+    "residency": null,
+    "appointment": true,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.800259836323,
+    "lon": -72.724318675402,
+    "matchedAddress": "333 BLOOMFIELD AVE, WEST HARTFORD, CT, 06117",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=333+Bloomfield+Avenue%2C+West+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "sorrows",
+    "name": "Our Lady of Sorrows Food Pantry",
+    "town": "Hartford",
+    "address": "39 Grace Street, Hartford, CT",
+    "phone": "860-233-4424",
+    "schedule": "Tue/Fri 10:00\u201312:30",
+    "windows": [
+      {
+        "day": 2,
+        "open": "10:00",
+        "close": "12:30"
+      },
+      {
+        "day": 5,
+        "open": "10:00",
+        "close": "12:30"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Use rear entrance. Town directory listing; confirm requirements and current hours.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.755395502568,
+    "lon": -72.708282598259,
+    "matchedAddress": "39 GRACE ST, HARTFORD, CT, 06106",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=39+Grace+Street%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "living",
+    "name": "First Church of the Living God Pantry",
+    "town": "Hartford",
+    "address": "70 Whitney Street, Hartford, CT 06105",
+    "phone": "860-232-4461",
+    "schedule": "2nd Tue 15:30\u201317:30 \u00b7 4th Sat 10:30\u201312:00",
+    "windows": [
+      {
+        "day": 2,
+        "nth": [
+          2
+        ],
+        "open": "15:30",
+        "close": "17:30"
+      },
+      {
+        "day": 6,
+        "nth": [
+          4
+        ],
+        "open": "10:30",
+        "close": "12:00"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Town directory listing; confirm eligibility and distribution date.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.76920535855,
+    "lon": -72.711679830662,
+    "matchedAddress": "70 WHITNEY ST, HARTFORD, CT, 06105",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=70+Whitney+Street%2C+Hartford%2C+CT+06105&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "grace",
+    "name": "Grace Worship Center Pantry",
+    "town": "Hartford",
+    "address": "750 Wethersfield Avenue, Hartford, CT",
+    "phone": "860-296-1544",
+    "schedule": "Mon 13:00\u201314:00",
+    "windows": [
+      {
+        "day": 1,
+        "open": "13:00",
+        "close": "14:00"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Town directory listing; confirm requirements before visiting.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.735267177258,
+    "lon": -72.6704973318,
+    "matchedAddress": "750 WETHERSFIELD AVE, HARTFORD, CT, 06114",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=750+Wethersfield+Avenue%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "hispanic",
+    "name": "Institute for the Hispanic Family Pantry",
+    "town": "Hartford",
+    "address": "45 Wadsworth Street, Hartford, CT 06106",
+    "phone": "860-718-5084",
+    "schedule": "Tue/Thu 10:00\u201314:00; call first",
+    "windows": [
+      {
+        "day": 2,
+        "open": "10:00",
+        "close": "14:00"
+      },
+      {
+        "day": 4,
+        "open": "10:00",
+        "close": "14:00"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Call first to arrange access.",
+    "residency": null,
+    "appointment": true,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.758336906835,
+    "lon": -72.67968675682,
+    "matchedAddress": "45 WADSWORTH ST, HARTFORD, CT, 06106",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=45+Wadsworth+Street%2C+Hartford%2C+CT+06106&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "kings",
+    "name": "King\u2019s Chapel Food Pantry",
+    "town": "Hartford",
+    "address": "400 Woodland Street, Hartford, CT",
+    "phone": "860-728-5777",
+    "schedule": "Sat 10:30\u201312:30",
+    "windows": [
+      {
+        "day": 6,
+        "open": "10:30",
+        "close": "12:30"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Town directory listing; confirm requirements before visiting.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.780366709978,
+    "lon": -72.69691407515,
+    "matchedAddress": "400 WOODLAND ST, HARTFORD, CT, 06112",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=400+Woodland+Street%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "malta",
+    "name": "Malta House Food Pantry",
+    "town": "Hartford",
+    "address": "230 Blue Hills Avenue, Hartford, CT",
+    "phone": "860-725-0171",
+    "schedule": "Sat 09:00\u201311:00",
+    "windows": [
+      {
+        "day": 6,
+        "open": "09:00",
+        "close": "11:00"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Distribution listed in parking lot. Confirm before visiting.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.79068367767,
+    "lon": -72.698208818062,
+    "matchedAddress": "230 BLUE HILLS AVE, HARTFORD, CT, 06112",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=230+Blue+Hills+Avenue%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  },
+  {
+    "id": "cathedral",
+    "name": "Cathedral of Saint Joseph Pantry",
+    "town": "Hartford",
+    "address": "829 Asylum Avenue, Hartford, CT",
+    "phone": "860-578-1434",
+    "schedule": "Thu 09:00\u201311:45",
+    "windows": [
+      {
+        "day": 4,
+        "open": "09:00",
+        "close": "11:45"
+      }
+    ],
+    "source": "https://resources.finalsite.net/images/v1762093639/westhartfordctgov/westhartfordctgov/gcgbdsvgdgzecsarpwl1/Food-Resources.pdf",
+    "notes": "Town directory listing; confirm requirements before visiting.",
+    "residency": null,
+    "appointment": false,
+    "conflict": false,
+    "checked": "2026-09-30",
+    "stock": "Unknown",
+    "lat": 41.769671922089,
+    "lon": -72.692174508584,
+    "matchedAddress": "829 ASYLUM AVE, HARTFORD, CT, 06105",
+    "coordinateSource": "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress?address=829+Asylum+Avenue%2C+Hartford%2C+CT&benchmark=Public_AR_Current&format=json"
+  }
+]

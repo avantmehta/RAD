@@ -1,0 +1,47 @@
+.quick-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quick-group > span {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.quick-grid,
+.walk-chips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+}
+
+.quick-grid button,
+.walk-chips button {
+  min-height: 42px;
+  border: 1px solid #d5dfe4;
+  border-radius: 9px;
+  background: #fff;
+  color: #29404d;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px;
+}
+
+.quick-grid button:hover,
+.quick-grid button:focus-visible,
+.walk-chips button:hover,
+.walk-chips button:focus-visible,
+.walk-chips button.active {
+  border-color: #12684f;
+  background: #e9f5ef;
+  color: #12684f;
+}
+
+.walk-chips {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.walk-chips button {
+  padding: 8px 3px;
+}
