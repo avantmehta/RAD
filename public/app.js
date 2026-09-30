@@ -83,6 +83,15 @@ const PROMPTS = [
   },
 ];
 
+// Mutable, reorderable copy of PROMPTS that the criteria-customization
+// panel operates on — PROMPTS itself stays the static "factory default"
+// seed. Each entry gets a 1-5 `weight` (default 3/mid) used as a
+// tie-breaker in ranking (see rankSites), and `custom: true` for anything
+// the user adds through the "+" panel. This is scaffolding ahead of the
+// team's real UI spec — built so a proper weighting/ordering model can
+// drop in later without redoing the interaction plumbing.
+const criteria = PROMPTS.map((p) => ({ ...p, weight: 3, custom: false }));
+
 const AVAILABILITY_PHRASES = {
   now: "now",
   afternoon: "this afternoon",
@@ -136,6 +145,14 @@ const resultsEl = document.getElementById("results");
 const composer = document.getElementById("composer");
 const input = document.getElementById("composer-input");
 const locateBtn = document.getElementById("locate-btn");
+const customizeBtn = document.getElementById("customize-btn");
+const criteriaModal = document.getElementById("criteria-modal");
+const criteriaListEl = document.getElementById("criteria-list");
+const modalClose = document.getElementById("modal-close");
+const modalDone = document.getElementById("modal-done");
+const newCritLabel = document.getElementById("new-crit-label");
+const newCritOptions = document.getElementById("new-crit-options");
+const addCritBtn = document.getElementById("add-crit-btn");
 
 init();
 
@@ -154,13 +171,17 @@ async function init() {
 
   composer.addEventListener("submit", onSubmit);
   locateBtn.addEventListener("click", onLocate);
+  customizeBtn.addEventListener("click", openCriteriaModal);
+  modalClose.addEventListener("click", closeCriteriaModal);
+  modalDone.addEventListener("click", closeCriteriaModal);
+  addCritBtn.addEventListener("click", addCustomCriterion);
 }
 
 // ---- primary tap UI ----
 
 function renderFilters() {
   filtersEl.innerHTML = "";
-  PROMPTS.forEach((prompt) => {
+  criteria.forEach((prompt) => {
     const group = document.createElement("div");
     group.className = "filter-group";
     group.dataset.promptId = prompt.id;
@@ -196,7 +217,7 @@ function renderFilters() {
 // arrived via typed text overriding a button, so the UI never lies about
 // what's actually being used to rank results.
 function syncFilterUI() {
-  PROMPTS.forEach((prompt) => {
+  criteria.forEach((prompt) => {
     const group = filtersEl.querySelector(`[data-prompt-id="${prompt.id}"]`);
     if (!group) return;
     const label = group.querySelector(".filter-group-label");
@@ -209,6 +230,120 @@ function syncFilterUI() {
       btn.classList.toggle("selected", current !== null && String(current) === btn.dataset.value);
     });
   });
+}
+
+// ---- criteria customization panel ("+" button) ----
+
+function openCriteriaModal() {
+  renderCriteriaModal();
+  criteriaModal.classList.remove("hidden");
+}
+
+function closeCriteriaModal() {
+  criteriaModal.classList.add("hidden");
+}
+
+function renderCriteriaModal() {
+  criteriaListEl.innerHTML = "";
+  criteria.forEach((c, i) => {
+    const row = document.createElement("div");
+    row.className = "criteria-row";
+
+    const order = document.createElement("div");
+    order.className = "crit-order";
+    const upBtn = document.createElement("button");
+    upBtn.type = "button";
+    upBtn.textContent = "▲";
+    upBtn.disabled = i === 0;
+    upBtn.addEventListener("click", () => moveCriterion(i, -1));
+    const downBtn = document.createElement("button");
+    downBtn.type = "button";
+    downBtn.textContent = "▼";
+    downBtn.disabled = i === criteria.length - 1;
+    downBtn.addEventListener("click", () => moveCriterion(i, 1));
+    order.appendChild(upBtn);
+    order.appendChild(downBtn);
+    row.appendChild(order);
+
+    const label = document.createElement("div");
+    label.className = "crit-label";
+    label.innerHTML = `${c.icon} ${escapeHtml(c.label)}${c.custom ? '<span class="crit-custom-tag">custom</span>' : ""}`;
+    row.appendChild(label);
+
+    const weights = document.createElement("div");
+    weights.className = "crit-weights";
+    for (let w = 1; w <= 5; w++) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "crit-weight-dot" + (w <= c.weight ? " filled" : "");
+      dot.setAttribute("aria-label", `Weight ${w}`);
+      dot.addEventListener("click", () => {
+        c.weight = w;
+        renderCriteriaModal();
+        maybeRunSearch();
+      });
+      weights.appendChild(dot);
+    }
+    row.appendChild(weights);
+
+    if (c.custom) {
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "crit-remove";
+      remove.setAttribute("aria-label", "Remove");
+      remove.textContent = "\u{1F5D1}";
+      remove.addEventListener("click", () => removeCriterion(c.id));
+      row.appendChild(remove);
+    }
+
+    criteriaListEl.appendChild(row);
+  });
+}
+
+function moveCriterion(index, delta) {
+  const target = index + delta;
+  if (target < 0 || target >= criteria.length) return;
+  [criteria[index], criteria[target]] = [criteria[target], criteria[index]];
+  renderCriteriaModal();
+  renderFilters();
+}
+
+function removeCriterion(id) {
+  const idx = criteria.findIndex((c) => c.id === id);
+  if (idx === -1) return;
+  criteria.splice(idx, 1);
+  delete state[id];
+  delete source[id];
+  renderCriteriaModal();
+  renderFilters();
+  maybeRunSearch();
+}
+
+function addCustomCriterion() {
+  const label = newCritLabel.value.trim();
+  if (!label) return;
+  const optionLabels = newCritOptions.value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 4);
+  const options = (optionLabels.length ? optionLabels : ["Yes"]).map((l) => ({
+    value: l.toLowerCase().replace(/[^a-z0-9]+/g, "_"),
+    label: l,
+    icon: "✨",
+  }));
+  criteria.push({
+    id: `custom_${Date.now()}`,
+    label,
+    icon: "✨",
+    options,
+    weight: 3,
+    custom: true,
+  });
+  newCritLabel.value = "";
+  newCritOptions.value = "";
+  renderCriteriaModal();
+  renderFilters();
 }
 
 function onLocate() {
@@ -420,10 +555,27 @@ function reachability(site, mode, distanceMiles) {
   };
 }
 
+function getWeight(id) {
+  const c = criteria.find((x) => x.id === id);
+  return c ? c.weight : 3;
+}
+const clamp01 = (n) => Math.max(0, Math.min(1, n));
+
 function rankSites(sites, opts) {
   const { mode, originCoords, commuteBudget, budget, foodType, paymentType, availability } = opts;
   const refTime = resolveReferenceTime(availability);
   const phrase = AVAILABILITY_PHRASES[availability] || "now";
+
+  // Weights only ever break ties AMONG sites that already pass every hard
+  // filter below (reachable, in budget, open, right food/payment type) —
+  // they can never make a closed or unreachable site outrank a valid one.
+  // This is a simple v1 so the "+" weighting panel has something real to
+  // do; the team's actual design spec may want a different formula.
+  const wTime = getWeight("commute_time");
+  const wBudget = getWeight("budget");
+  const wOpen = getWeight("availability");
+  const weightTotal = wTime + wBudget + wOpen;
+
   return sites
     .map((site) => {
       const distance = haversineMiles(originCoords, [site.lat, site.lng]);
@@ -439,10 +591,18 @@ function rankSites(sites, opts) {
       const matchesPayment =
         !paymentType || cost === 0 || (site.payment_accepted && site.payment_accepted.includes(paymentType));
       const feasible = reach.feasible && withinTime && withinBudget && isOpen && matchesFoodType && matchesPayment;
-      return { site, distance, reach, open, cost, feasible };
+
+      const timeCloseness = commuteBudget ? clamp01(1 - reach.minutes / commuteBudget) : 0.5;
+      const budgetHeadroom = budget && budget !== Infinity ? clamp01(1 - cost / budget) : 0.5;
+      const fitScore = weightTotal
+        ? (wTime * timeCloseness + wBudget * budgetHeadroom + wOpen * (open.score / 100)) / weightTotal
+        : 0;
+
+      return { site, distance, reach, open, cost, feasible, fitScore };
     })
     .sort((a, b) => {
       if (a.feasible !== b.feasible) return a.feasible ? -1 : 1;
+      if (a.feasible && Math.abs(a.fitScore - b.fitScore) > 0.001) return b.fitScore - a.fitScore;
       if (a.open.score !== b.open.score) return b.open.score - a.open.score;
       return a.reach.minutes - b.reach.minutes;
     });
