@@ -1,7 +1,9 @@
-# Hack for Humanity — Team Strategy
-## Challenge 2: The Last Mile of Food Access
+# Heartfood — Team Strategy
+## Hack for Humanity · Challenge 2: The Last Mile of Food Access
 
 **Team RAD:** Rohan · Avant · David (team name = initials)
+**App name:** Heartfood (Hartford + heart) — pilot dataset scoped to Greater Hartford
+**Deploy target:** Firebase Hosting — [heartfood.web.app](https://heartfood.web.app)
 **Event:** Wed Sep 30, 2026 — UConn School of Business, 100 Constitution Plaza, Hartford
 **Build window:** 10:30 AM–4:00 PM (5.5 hrs) · Submission 4–5 PM · Presentations 5–7 PM (5 min + 2–3 min Q&A)
 
@@ -9,7 +11,7 @@
 
 ## The strategy in one paragraph
 
-Ruthless scoping wins one-day hackathons. We're building a **hybrid food-access finder for Greater Hartford: a web app with a conversational interface**. A resident or caseworker types "I don't have a car, I'm near Park Street, I need food today" and gets rich results — ranked option cards, a simple map, walking/transit directions, hours matched to right now, and an AI "likely open" confidence score. Chat in, rich web out: the best of both. Data is **hand-curated** (~25–40 Hartford-area sites), not scraped live. The differentiator isn't the map — it's the **transit/walking constraint** (the brief's core insight: the barrier is proximity + transit, not availability) plus the **AI open-now scoring**. One polished, demo-able slice beats a broad unfinished app.
+Ruthless scoping wins one-day hackathons. We're building **Heartfood, a hybrid food-access finder for Greater Hartford: a web app with a conversational interface**. A resident or caseworker types "I don't have a car, I'm near Park Street, I need food today" and gets rich results — ranked option cards, a simple map, walking/transit directions, hours matched to right now, and an AI "likely open" confidence score. Chat in, rich web out: the best of both. Data is **hand-curated** (~25–40 Hartford-area sites), not scraped live. The differentiator isn't the map — it's the **transit/walking constraint** (the brief's core insight: the barrier is proximity + transit, not availability) plus the **AI open-now scoring**. One polished, demo-able slice beats a broad unfinished app.
 
 ---
 

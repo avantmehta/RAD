@@ -1,6 +1,8 @@
-# Detailed Definition — Challenge 2 Architecture
+# Heartfood — Detailed Architecture Definition
 **Architecture reference, owned by David (Master Architecture) — shared with the team since the schema and scoring logic are Avant's and Rohan's direct dependency.**
 Companion to `team-strategy.md`. Fills in the concrete definitions behind the plan.
+
+**Confirmed:** app name **Heartfood**, deploying to **Firebase Hosting** at [heartfood.web.app](https://heartfood.web.app), pilot dataset scoped to Greater Hartford.
 
 ---
 
@@ -21,7 +23,7 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 - Ambiguous location → ask one clarifying question, don't guess
 - Missing hours data → still list the site, flagged "hours unverified," scored lower
 
-**Tech sketch (Avant's call on front-end framework, David's call on architecture):** static single-page app + `sites.json` + client-side logic; one LLM API for parsing the typed input and generating the summaries/scores. No backend, no auth, no database — nothing that can fail at 4:55 PM.
+**Tech sketch (Avant's call on front-end framework, David's call on architecture):** static single-page app + `sites.json` + client-side logic, deployed on **Firebase Hosting** (heartfood.web.app). For the LLM calls (parsing input, generating summaries/scores): don't call the LLM API directly from the browser — that exposes the API key in client JS. Route it through a thin **Firebase Cloud Function** instead (Hosting rewrites `/api/*` to a function); still "no backend to maintain," just a stateless proxy. No auth, no database — nothing that can fail at 4:55 PM.
 
 ---
 
