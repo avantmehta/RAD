@@ -23,7 +23,17 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 - Ambiguous location → ask one clarifying question, don't guess
 - Missing hours data → still list the site, flagged "hours unverified," scored lower
 
-**Tech sketch (Avant's call on front-end framework, David's call on architecture):** static single-page app + `sites.json` + client-side logic, deployed on **Firebase Hosting** (heartfood.web.app). For the LLM calls (parsing input, generating summaries/scores): don't call the LLM API directly from the browser — that exposes the API key in client JS. Route it through a thin **Firebase Cloud Function** instead (Hosting rewrites `/api/*` to a function); still "no backend to maintain," just a stateless proxy. No auth, no database — nothing that can fail at 4:55 PM.
+**Tech sketch:** static single-page app (`public/index.html`, `style.css`, `app.js`, `sites.json`) deployed on **Firebase Hosting** (heartfood.web.app, site ID `heartfood` inside the `frndz28` project). Mobile-first UI — built for phone viewports first, chat-thread layout. No auth, no database — nothing that can fail at 4:55 PM.
+
+**Front end / backend split (current division of labor):** Avant + Claude are building the front end now (`public/`) against a **local mock parser** so it works end-to-end with zero backend dependency. Rohan owns the real backend and will stitch it in when ready.
+
+**The contract Rohan's backend must satisfy** (see `public/app.js`, function `parseInput`):
+- **Endpoint:** `POST /api/parse`
+- **Request body:** `{"text": "<raw user sentence>"}`
+- **Response body:** `{"mode": "car" | "walk" | "transit" | "no_car" | "unknown", "location": "<free-text neighborhood/area, or null>", "when": "now" | "tomorrow"}`
+- Don't call an LLM API directly from the browser (exposes the key) — route it through a **Firebase Cloud Function** (Hosting can rewrite `/api/**` to a function once it exists); still "no backend to maintain," just a stateless proxy.
+- Swap-in plan: once the endpoint is live, flip `USE_MOCK_BACKEND = false` at the top of `public/app.js` — nothing else in the front end needs to change as long as the response shape matches.
+- `public/sites.json` is currently mock/placeholder data (flagged in its `_meta` block) — Rohan's validated dataset drops in as a straight file replacement in the same schema (section 3 below).
 
 ---
 
