@@ -9,65 +9,43 @@
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <header class="app-header">
-      <div class="brand">
-        <img class="brand-mark" src="logo.svg" alt="Heartfood logo" width="30" height="30" />
-        <span class="brand-name">Heartfood</span>
-      </div>
+  <div class="app landing">
+    <div class="landing-hero">
+      <img class="landing-logo" src="logo.svg" alt="Heartfood logo" width="140" height="140" />
+      <h1 class="landing-name">Heartfood</h1>
+      <p class="landing-tag">Food you can actually reach &mdash; today, on your schedule.</p>
       <span class="brand-tag">&#128205; Greater Hartford</span>
-    </header>
 
-    <div id="status" class="status">&#128075; Tap your answers below, or just tell me what's up.</div>
-
-    <div class="filters-head">
-      <span>Your criteria</span>
-      <button type="button" id="customize-btn" class="plus-btn" aria-label="Customize criteria">+</button>
-    </div>
-    <div id="filters" class="filters">
-      <!-- prompt button-groups injected by app.js, driven by the `criteria` array -->
+      <a class="cta-btn" href="app.html">&#128269; Find food</a>
+      <button type="button" id="how-it-works-btn" class="secondary-btn">&#10067; How does this app work?</button>
     </div>
 
-    <main id="results" class="results-area" aria-live="polite">
-      <!-- result cards injected by app.js -->
-    </main>
-
-    <form id="composer" class="composer">
-      <button type="button" id="locate-btn" class="icon-btn" title="Use my location" aria-label="Use my location">
-        &#128205;
-      </button>
-      <input
-        id="composer-input"
-        type="text"
-        autocomplete="off"
-        placeholder="Anything else? e.g. near Park St, no car…"
-      />
-      <button type="submit" class="send-btn" aria-label="Send">&#10148;</button>
-    </form>
-
-    <div id="criteria-modal" class="modal-overlay hidden">
+    <div id="how-it-works-modal" class="modal-overlay hidden">
       <div class="modal-sheet">
         <div class="modal-header">
-          <span>&#9881;&#65039; Customize criteria</span>
-          <button type="button" id="modal-close" class="icon-btn" aria-label="Close">&#10005;</button>
+          <span>&#10067; How Heartfood works</span>
+          <button type="button" id="how-it-works-close" class="icon-btn" aria-label="Close">&#10005;</button>
         </div>
-        <p class="modal-note">Reorder, weight, or add your own. This is scaffolding ahead of the team's real UI spec, built so it can drop in later.</p>
-        <div id="criteria-list" class="criteria-list"></div>
-
-        <div class="modal-divider"></div>
-
-        <div class="add-criterion">
-          <input id="new-crit-label" type="text" autocomplete="off" placeholder="New criterion, e.g. Wheelchair accessible" />
-          <input id="new-crit-options" type="text" autocomplete="off" placeholder="Options, comma separated (optional)" />
-          <button type="button" id="add-crit-btn" class="add-btn">&#10133; Add</button>
-        </div>
-        <p class="modal-note">&#9888;&#65039; Custom criteria show up as buttons but don't affect matches yet &mdash; there's no site data to check them against.</p>
-
-        <button type="button" id="modal-done" class="done-btn">Done</button>
+        <ul class="howto-list">
+          <li>&#128205; <strong>Tell us your situation</strong> &mdash; tap quick buttons for how you travel, your budget, and your schedule, or just type it in your own words.</li>
+          <li>&#9203; <strong>We rank what's actually reachable</strong> &mdash; pantries, mobile markets, and SNAP grocers, sorted by real travel time for your mode of transport, not just distance on a map.</li>
+          <li>&#9989; <strong>We flag what's likely open</strong> &mdash; so you're not sent somewhere that's actually closed when you get there.</li>
+          <li>&#127919; <strong>You can fine-tune it</strong> &mdash; food type, payment accepted, and more, all with a few taps.</li>
+        </ul>
+        <a class="cta-btn cta-btn-block" href="app.html">&#128269; Find food now</a>
       </div>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script>
+    const howBtn = document.getElementById("how-it-works-btn");
+    const howModal = document.getElementById("how-it-works-modal");
+    const howClose = document.getElementById("how-it-works-close");
+    howBtn.addEventListener("click", () => howModal.classList.remove("hidden"));
+    howClose.addEventListener("click", () => howModal.classList.add("hidden"));
+    howModal.addEventListener("click", (e) => {
+      if (e.target === howModal) howModal.classList.add("hidden");
+    });
+  </script>
 </body>
 </html>

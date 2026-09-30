@@ -23,7 +23,11 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 - Ambiguous location → ask one clarifying question, don't guess
 - Missing hours data → still list the site, flagged "hours unverified," scored lower
 
-**Tech sketch:** static single-page app (`public/index.html`, `style.css`, `app.js`, `sites.json`) deployed on **Firebase Hosting** (heartfood.web.app, site ID `heartfood` inside the `frndz28` project). Mobile-first UI — built for phone viewports first, chat-thread layout. No auth, no database — nothing that can fail at 4:55 PM.
+**Tech sketch:** static site deployed on **Firebase Hosting** (heartfood.web.app, site ID `heartfood` inside the `frndz28` project), two pages sharing one `style.css`/`sites.json`:
+- `public/index.html` — landing page (logo, "Find food" CTA, "How does this app work?" popup)
+- `public/app.html` + `public/app.js` — the actual finder (chat input + tap criteria + results)
+
+Mobile-first UI — built for phone viewports first. No auth, no database — nothing that can fail at 4:55 PM.
 
 **Front end / backend split (current division of labor):** Avant + Claude are building the front end now (`public/`) against a **local mock parser** so it works end-to-end with zero backend dependency. Rohan owns the real backend and will stitch it in when ready.
 
