@@ -78,13 +78,193 @@ html, body {
   border-bottom: 1px solid var(--border);
 }
 
+.filters-head {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.plus-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.plus-btn:active { transform: scale(0.92); }
+
 .filters {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 14px;
+  padding: 10px 14px 12px;
   border-bottom: 1px solid var(--border);
+}
+
+/* ---- criteria customization modal ---- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 50;
+}
+.modal-overlay.hidden { display: none; }
+
+.modal-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  padding: 16px 16px calc(16px + var(--safe-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.modal-note {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.modal-divider {
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+.criteria-list { display: flex; flex-direction: column; gap: 8px; }
+
+.criteria-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.crit-order {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.crit-order button {
+  width: 20px;
+  height: 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 10px;
+  cursor: pointer;
+  line-height: 1;
+}
+.crit-order button:disabled { opacity: 0.25; cursor: default; }
+
+.crit-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.crit-label .crit-custom-tag {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--accent-2);
+  text-transform: uppercase;
+  margin-left: 4px;
+}
+
+.crit-weights {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.crit-weight-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.crit-weight-dot.filled { background: var(--accent); border-color: var(--accent); }
+
+.crit-remove {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--bad);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.add-criterion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.add-criterion input {
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  outline: none;
+}
+.add-criterion input:focus { border-color: var(--accent); }
+
+.add-btn, .done-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.add-btn {
+  background: var(--surface-2);
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.done-btn {
+  width: 100%;
+  margin-top: 14px;
+  background: var(--accent);
+  color: #fff;
 }
 
 .filter-group-label {

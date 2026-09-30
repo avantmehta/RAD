@@ -20,8 +20,12 @@
 
     <div id="status" class="status">&#128075; Tap your answers below, or just tell me what's up.</div>
 
+    <div class="filters-head">
+      <span>Your criteria</span>
+      <button type="button" id="customize-btn" class="plus-btn" aria-label="Customize criteria">+</button>
+    </div>
     <div id="filters" class="filters">
-      <!-- prompt button-groups injected by app.js from the PROMPTS config -->
+      <!-- prompt button-groups injected by app.js, driven by the `criteria` array -->
     </div>
 
     <main id="results" class="results-area" aria-live="polite">
@@ -40,6 +44,28 @@
       />
       <button type="submit" class="send-btn" aria-label="Send">&#10148;</button>
     </form>
+
+    <div id="criteria-modal" class="modal-overlay hidden">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <span>&#9881;&#65039; Customize criteria</span>
+          <button type="button" id="modal-close" class="icon-btn" aria-label="Close">&#10005;</button>
+        </div>
+        <p class="modal-note">Reorder, weight, or add your own. This is scaffolding ahead of the team's real UI spec, built so it can drop in later.</p>
+        <div id="criteria-list" class="criteria-list"></div>
+
+        <div class="modal-divider"></div>
+
+        <div class="add-criterion">
+          <input id="new-crit-label" type="text" autocomplete="off" placeholder="New criterion, e.g. Wheelchair accessible" />
+          <input id="new-crit-options" type="text" autocomplete="off" placeholder="Options, comma separated (optional)" />
+          <button type="button" id="add-crit-btn" class="add-btn">&#10133; Add</button>
+        </div>
+        <p class="modal-note">&#9888;&#65039; Custom criteria show up as buttons but don't affect matches yet &mdash; there's no site data to check them against.</p>
+
+        <button type="button" id="modal-done" class="done-btn">Done</button>
+      </div>
+    </div>
   </div>
 
   <script src="app.js"></script>
