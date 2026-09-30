@@ -11,7 +11,11 @@ npm ci
 node --env-file=../../.env.local scripts/run-framework.mjs dev
 ```
 
-Open http://127.0.0.1:5173. The key created in this session is stored outside this deliverable directory in the approved workspace `.env.local`. Never commit, bundle, share, or expose it in browser code. On another computer, securely configure OPENAI_API_KEY and run `npm run dev`; `--env-file` is not needed when the environment already contains it. The seven-day key will need replacement after expiry.
+Open http://127.0.0.1:3000. Never commit, bundle, share, or expose an API key in browser code. On another computer or Vercel, securely configure `OPENAI_API_KEY`; the manual planner works when the AI key is absent.
+
+## Deploy to Vercel
+
+Import `https://github.com/avantmehta/RAD`, set the project root directory to `foodreach`, keep the detected Next.js settings, and deploy. Add `OPENAI_API_KEY` as an encrypted Vercel environment variable only if the natural-language input should be enabled.
 
 ## Implemented
 
