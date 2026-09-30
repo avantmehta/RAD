@@ -15,7 +15,7 @@
 
 
 /* ---- Landing page ---- */
-.landing{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px;background:#f4f8f6;overflow:hidden}
+.landing{position:relative;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:9vh 20px 34%;background:#f4f8f6;overflow:hidden}
 .landing-skyline{position:absolute;left:0;right:0;bottom:0;height:30%;overflow:hidden;pointer-events:none;z-index:0;color:var(--g2)}
 .landing-skyline svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:skyline-scroll 50s linear infinite}
 .landing-skyline svg g{fill:currentColor}
