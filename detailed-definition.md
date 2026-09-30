@@ -1,5 +1,5 @@
-# Detailed Definition — Challenge 2 Strategy
-**Personal briefing for Dave only — not for the team.**
+# Detailed Definition — Challenge 2 Architecture
+**Architecture reference, owned by David (Master Architecture) — shared with the team since the schema and scoring logic are Avant's and Rohan's direct dependency.**
 Companion to `team-strategy.md`. Fills in the concrete definitions behind the plan.
 
 ---
@@ -21,18 +21,18 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 - Ambiguous location → ask one clarifying question, don't guess
 - Missing hours data → still list the site, flagged "hours unverified," scored lower
 
-**Tech sketch (Rohan's call, but the simple version):** static single-page app + `sites.json` + client-side logic; one LLM API for parsing the typed input and generating the summaries/scores. No backend, no auth, no database — nothing that can fail at 4:55 PM.
+**Tech sketch (Avant's call on front-end framework, David's call on architecture):** static single-page app + `sites.json` + client-side logic; one LLM API for parsing the typed input and generating the summaries/scores. No backend, no auth, no database — nothing that can fail at 4:55 PM.
 
 ---
 
-## 2. User workflow (your domain — the journey map)
+## 2. User workflow — the journey map (David validates end-to-end; Avant builds it; Rohan's data feeds it)
 
 **Primary persona:** Maria, Hartford resident, no car, kids home, needs food today after 3 PM. Phone-only, low patience for forms.
 
 **Caseworker variant:** James at a Hartford nonprofit, helping 6 clients a week find food. Needs fast, trustworthy answers he can text to a client.
 
 **Journey:**
-| Step | User does | System does | Your validation question |
+| Step | User does | System does | Validation question |
 |---|---|---|---|
 | 1 | Opens page | Shows input + 2 example prompts | Would Maria know what to type? |
 | 2 | Types need in own words | Parses location / transport / time; confirms back in one line | Does the confirmation read trustworthy? |
@@ -40,7 +40,7 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 | 4 | Picks a card | Shows directions, hours, phone | Could she act on this with just her phone? |
 | 5 | — | Offers "text me this" style summary (even if just copyable) | Caseworker-usable? |
 
-**Your red-team script (run at 2:30 checkpoint):** type 5 messy real-world inputs — typos, vague locations ("near downtown"), Spanish, "tomorrow morning," "I have a car." Anything that breaks or looks untrustworthy goes on the bug list.
+**Red-team script (run at the 2:30 checkpoint):** type 5 messy real-world inputs — typos, vague locations ("near downtown"), Spanish, "tomorrow morning," "I have a car." Anything that breaks or looks untrustworthy goes on the bug list.
 
 ---
 
@@ -72,11 +72,11 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 }
 ```
 
-**Curation rules for Adriel:** ~25–40 sites, Greater Hartford (Hartford, East/West Hartford, New Britain, Manchester, Bloomfield). Every row must have name, address, town, type, and at least a phone OR hours — no row ships with neither. `null` hours = unverified, which the scoring handles honestly.
+**Curation rules for Rohan:** ~25–40 sites, Greater Hartford (Hartford, East/West Hartford, New Britain, Manchester, Bloomfield). Every row must have name, address, town, type, and at least a phone OR hours — no row ships with neither. `null` hours = unverified, which the scoring handles honestly.
 
 ---
 
-## 4. The "likely open now" score (the AI differentiator)
+## 4. The "likely open now" score (the AI differentiator — David's design, reviewed with Rohan against real data)
 
 **Inputs:** current day/time, the site's hours row, verification recency.
 
@@ -104,17 +104,16 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 
 ## 6. Workstream task lists (concrete)
 
-**Adriel (Data)** — done = `sites.json` with 25+ valid rows in the schema above + scoring function returning 0–100 with rationale strings. Validate: no row missing both phone and hours.
-**Rohan (Build)** — done = deployed page: chat input → parsed confirm → ranked cards + pins + directions, running on mock data by 1:00, real data by 2:30. Validate: works on a phone browser.
-**Crossby (Research & story)** — done = one-pager: the problem in numbers (food insecurity + transit gap in CT), 3 existing alternatives and where each fails, the persona, slide outline by 2:30. Validate: every claim has a source.
-**Dave (Integration, workflow, QA)** — done = journey map signed off, 5-input red-team run at 2:30 with bug list, dataset spot-check via SQL-style review, demo script rehearsed, 5-min deck ready by 4:00. Validate: would you trust this if your name were on it?
+**Rohan (Data)** — done = `sites.json` with 25+ valid rows in the schema above, validated: no row missing both phone and hours.
+**Avant (Front End)** — done = deployed page: chat input → parsed confirm → ranked cards + pins + directions, running on mock data by 1:00, real data by 2:30. Validate: works on a phone browser.
+**David (Master Architecture)** — done = schema + scoring function defined and reviewed with Rohan by 1:00; front end ↔ data integration working end-to-end by 2:30; journey map signed off; 5-input red-team run at 2:30 with bug list; demo script rehearsed; deck ready by 4:00. Validate: would you trust this if your name were on it?
 
 ---
 
 ## 7. Checkpoint definitions
 
 **1:00 PM — "Does it run?"** Scaffold live on screen with mock data. First 15 real rows reviewed. Story read-back (60 seconds). Kill list: anything unrealistic.
-**2:30 PM — "Would a user trust it?"** Full dry run with real data, Dave's 5 messy inputs. Bug list only — feature freeze from here.
+**2:30 PM — "Would a user trust it?"** Full dry run with real data, David's 5 messy inputs. Bug list only — feature freeze from here.
 
 ---
 
@@ -124,10 +123,6 @@ Companion to `team-strategy.md`. Fills in the concrete definitions behind the pl
 |---|---|
 | Data curation eats the day | Cap at 30 sites; phone-OR-hours minimum; mock data keeps build moving regardless |
 | LLM API fails on stage | Pre-generate the demo scenario's outputs as fallback; live-typing is theater over a cached result if needed |
-| Scope creep at 2 PM | Feature freeze at 2:30, enforced by you |
-| Team has never met | You send the plan now (held — see note); huddle is intros + schema, 30 min max |
+| Scope creep at 2 PM | Feature freeze at 2:30 |
+| No dedicated research/narrative owner | Assign it explicitly at the 10:00 huddle so it doesn't fall through the cracks (see `team-strategy.md`) |
 | Presenter undecided | Decide by 2:30; whoever presents rehearses twice, timed |
-
----
-
-*Note: the team intro email is drafted and held — not sent — per your call.*

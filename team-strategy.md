@@ -1,7 +1,7 @@
 # Hack for Humanity — Team Strategy
 ## Challenge 2: The Last Mile of Food Access
 
-**Team:** Crossby Dessalines · Adriel Allen · Rohan Vibhuti · Dave Ripper
+**Team RAD:** Rohan · Avant · David (team name = initials)
 **Event:** Wed Sep 30, 2026 — UConn School of Business, 100 Constitution Plaza, Hartford
 **Build window:** 10:30 AM–4:00 PM (5.5 hrs) · Submission 4–5 PM · Presentations 5–7 PM (5 min + 2–3 min Q&A)
 
@@ -23,29 +23,28 @@ Ruthless scoping wins one-day hackathons. We're building a **hybrid food-access 
 
 4. **Demo it as a hybrid: chat in, rich web out.** A conversational input ("I'm near X, no car, need food today") feeding a web app that renders ranked cards, a map, and directions. Natural language is the brief's lead AI angle and the most compelling 2-minute stage demo; the web results make it feel like a real product, not a chatbot toy.
 
-5. **Start the story thread at 10:30 AM, not 3 PM.** Judging weights research & evidence and presentation alongside the build. The narrative, the user persona, the "existing alternatives fall short because…" evidence, and the slide outline get a dedicated owner from minute one — not whoever's free at the end.
+5. **Start the story thread at 10:30 AM, not 3 PM.** Judging weights research & evidence and presentation alongside the build. The narrative, the user persona, the "existing alternatives fall short because…" evidence, and the slide outline need to stay someone's explicit responsibility all day — not whoever's free at the end. With only 3 of us and no dedicated research lane (see below), this is the easiest thing to accidentally drop.
 
 ---
 
-## Division of labor — four parallel workstreams
+## Division of labor — three parallel workstreams
 
 | Workstream | Owner | Plays to |
 |---|---|---|
-| **A. Data** — curate the pantry dataset, define the JSON schema, build the open-now scoring logic | **Adriel** (Data Science, Vibe Coding) | Data science |
-| **B. Build** — scaffold the app + chat UI against the schema with mock data, deploy | **Rohan** (SWE, UX Design, Data Science) | Engineering + UX |
-| **C. Research & story** — existing alternatives, user persona, problem statement, evidence, slide draft | **Crossby** (Market Research, Domain, Vibe Coding) | Research + domain |
-| **D. Integration, workflow & QA** — define the user workflow end-to-end, integration-test data→app handoffs, validate the dataset (SQL), red-team the demo as the user, own the 5-min presentation | **Dave** (Domain Expertise — 20 yrs radiology IT systems implementation: integrations, workflow design, troubleshooting, SQL, vendor management; not a coder) | Systems integration |
+| **Front End** — build the chat input + rendered results (ranked cards, map, directions, "likely open" badges); wire it to the scoring logic; deploy; confirm it works on a phone browser | **Avant** | Front-end build |
+| **Data** — curate the ~25–40 Hartford-area site dataset, validate every row against the agreed schema (no row missing both phone and hours), keep data quality honest | **Rohan** | Data validation |
+| **Master Architecture** — own the system design end-to-end: the data schema, the reachability-ranking + "likely open now" scoring logic, how chat input maps to filters, the tech stack call, and the integration contract between Avant's front end and Rohan's data. Also the natural person to red-team the full pipeline and keep the demo narrative technically honest | **David** | Systems architecture, integration |
 
-> Dave's background is the team's QA department: he's spent 20 years making systems actually work in the real world — defining workflows with departments, integrating vendors, troubleshooting, SQL data work. That's exactly what a hackathon prototype needs between "it runs on my laptop" and "a judge trusts it live."
+> **Note — no dedicated Research & Story lane this time.** The original 4-person version of this plan had someone owning problem evidence, competitive research, and slide narrative full-time. With 3 of us, that has to happen opportunistically: capture it together at the checkpoints below, and don't let it slide to 4:30 PM. Whoever has slack time (likely Avant once the front end is stable, or David once architecture is locked) should pick up the one-pager evidence and slide outline — decide who, explicitly, at the 10:00 huddle.
 
 ### The critical handoff: the data schema contract (agreed by 11:00 AM)
-Adriel and Rohan work **fully in parallel** because Rohan builds against mock data in the *exact* schema Adriel is filling with real data. The schema is the interface — e.g. each site: `{name, address, type, phone, hours{...}, snap_accepted, transit_notes, lat, lng}`. Agree it in the 10:00–10:30 huddle, then neither track blocks the other. Integration = swapping mock for real.
+David defines the schema and the scoring logic; Rohan fills the schema with real, validated data; Avant builds the front end against the *exact* same schema using mock data from minute one. The schema is the interface — e.g. each site: `{name, address, type, phone, hours{...}, snap_accepted, transit_notes, lat, lng}`. Agree it in the 10:00–10:30 huddle, then no track blocks another. Integration = swapping mock data for Rohan's real data once it's validated.
 
 ### Other handoffs
-- **Crossby → Dave (by ~2:30):** narrative + slide outline → Dave turns it into the final 5-min deck and rehearses.
-- **Rohan → Dave (by ~2:30):** working prototype → Dave red-teams it as a Hartford resident with no car; bugs go back to Rohan with repro steps.
-- **Adriel → Rohan (by ~1:00):** real dataset → Rohan wires it in; scoring logic reviewed together at checkpoint 1.
-- **Dave → all (continuous):** workflow and integration gut-checks — "would a caseworker trust this answer?", "does the handoff from chat to results actually work?" — kill unrealistic features early. Dave is also the dataset validator (SQL) and the demo-script owner.
+- **Rohan → David (by ~1:00):** real, validated dataset → David reviews the scoring logic against it together with Rohan.
+- **David → Avant (continuous, contract locked by 11:00):** schema + scoring function/API ready to wire in.
+- **Avant → David (by ~2:30):** working prototype → David red-teams it as a Hartford resident with no car; bugs go back to Avant with repro steps.
+- **David (continuous):** architecture and integration gut-checks — "would a caseworker trust this answer?", "does the handoff from chat to results actually work?" — kill unrealistic features early.
 
 ---
 
@@ -53,14 +52,14 @@ Adriel and Rohan work **fully in parallel** because Rohan builds against mock da
 
 | Time | What happens |
 |---|---|
-| 9:30–10:00 | Registration, 2nd floor. Find each other. |
-| 10:00–10:30 | **Team huddle (all four — first contact):** 10 min intros, then lock the concept above, pick the stack (recommend: web app + chat UI on Replit), agree the data schema, create the GitHub repo, start a group chat. No one codes until the schema is agreed. *(Send the plan to the team beforehand — draft email below — so the huddle is 10 minutes, not 30.)* |
-| 10:30–11:00 | Schema locked. Adriel starts data gathering; Rohan scaffolds app + chat UI with mock data; Crossby starts research (211 CT, Foodshare, what exists today and where it fails); Dave defines the user persona + "would a caseworker trust this" criteria. |
-| 11:00–1:00 | **Parallel sprint 1:** data curation · app scaffold · research + story draft · Dave validates direction. |
-| 1:00–1:15 | **Checkpoint 1 (all):** live demo of the scaffold, review first 15 real data rows, story read-back. Kill or fix anything unrealistic. |
+| 9:30–10:00 | Registration, 2nd floor. |
+| 10:00–10:30 | **Team huddle (all three):** lock the concept above, pick the stack, agree the data schema, create the GitHub repo, start a group chat. Explicitly assign who covers research/narrative alongside their main lane. No one codes until the schema is agreed. |
+| 10:30–11:00 | Schema locked. Rohan starts data gathering + validation; Avant scaffolds app + chat UI with mock data; David defines the scoring architecture, finalizes the schema, sets the integration contract. |
+| 11:00–1:00 | **Parallel sprint 1:** data curation & validation · app scaffold · architecture/scoring logic built out. |
+| 1:00–1:15 | **Checkpoint 1 (all):** live demo of the scaffold, review first 15 real data rows, quick story read-back. Kill or fix anything unrealistic. |
 | 1:15–2:30 | **Parallel sprint 2 / integration:** real data wired in, open-now scoring connected, chat prompts tuned, slides started. |
-| 2:30–2:45 | **Checkpoint 2 (all):** full end-to-end dry run *as the user*. Dave red-teams. Bug list only — no new features after this point. |
-| 2:30–4:00 | Polish + presentation: Crossby + Dave finish slides; Rohan fixes the bug list; Adriel stress-tests data edge cases (bad hours, missing phones). |
+| 2:30–2:45 | **Checkpoint 2 (all):** full end-to-end dry run *as the user*. David red-teams. Bug list only — no new features after this point. |
+| 2:30–4:00 | Polish + presentation: finish slides and narrative together; fix the bug list; stress-test data edge cases (bad hours, missing phones). |
 | 4:00–5:00 | Submit the project. **Rehearse the 5-minute presentation out loud, timed.** One presenter (see below). Prep 2–3 likely Q&A answers. |
 | 5:00–7:00 | Presentations. 7:30 awards. |
 
@@ -70,10 +69,10 @@ Adriel and Rohan work **fully in parallel** because Rohan builds against mock da
 
 ## Methodology: contract-first parallel tracks
 
-1. **Interfaces before implementation.** The data schema (Adriel↔Rohan) and the demo script (what we show on stage) are agreed before anyone builds. Everything else is replaceable; the interfaces aren't.
-2. **Mock-data decoupling.** The builder never waits on the data person. If real data is late, the demo still runs.
+1. **Interfaces before implementation.** The data schema (David↔Rohan↔Avant) and the demo script (what we show on stage) are agreed before anyone builds. Everything else is replaceable; the interfaces aren't.
+2. **Mock-data decoupling.** Avant never waits on Rohan. If real data is late, the demo still runs on mock data.
 3. **Timeboxed sprints with live demos.** Two checkpoints, both with something running on screen. Status updates are demos, not descriptions.
-4. **Red-team testing by the domain experts.** Dave + Crossby attack the prototype as skeptical users. Every "a real person wouldn't trust this" becomes a fix or a cut.
+4. **Red-team testing.** David (and whoever's free) attacks the prototype as a skeptical user. Every "a real person wouldn't trust this" becomes a fix or a cut.
 5. **One decision log.** A single shared doc (or the group chat pinned message) records every scope decision — "we cut statewide coverage," "we cut user accounts." Prevents re-litigation at 3 PM.
 
 ### The 5-minute presentation (judges decide — not the audience)
@@ -82,18 +81,16 @@ Adriel and Rohan work **fully in parallel** because Rohan builds against mock da
 - **Solution + demo (2 min):** live typed conversation, one scenario, show the open-now score.
 - **Impact + differentiation (1 min):** why reachability-ranked beats distance-ranked; who uses this Monday morning.
 - **Next step (30s):** what we'd build/validate next.
-- **One presenter.** Transitions between speakers eat the 5 minutes — the guide says so explicitly. Dave or Crossby; decide by 2:30.
+- **One presenter.** Transitions between speakers eat the 5 minutes — decide who by 2:30.
 
 ---
 
 ## Collaboration tools & methods
 
-- **GitHub repo** — created in the 10:00 huddle (guide: set up accounts before arriving). Rohan owns merges; everyone commits.
-- **Replit** — strong hackathon option: multiplayer editing + instant deploy, no environment setup. (Muse has it connected — Dave can ask for help here during the day.)
-- **Shared Google Doc** — research notes, decision log, slide outline, demo script. Crossby owns it.
-- **Group chat** — move off the email thread at 10 AM (text group / Discord / Slack). Quick questions, checkpoint reminders, "blocked on X."
-- **AI assistants for speed** — Copilot / Cursor / Claude Code for code; ChatGPT / Claude for research synthesis and slide drafting. The guide lists free tiers and student offers.
-- **Muse (me)** — Dave can ping me all day: research lookups, debugging help, data validation, slide review, rehearsal timing.
+- **GitHub repo** — [avantmehta/RAD](https://github.com/avantmehta/RAD). Everyone commits.
+- **Shared Google Doc** — research notes, decision log, slide outline, demo script.
+- **Group chat** — quick questions, checkpoint reminders, "blocked on X."
+- **AI assistants for speed** — Claude Code / Copilot / Cursor for code; ChatGPT / Claude / Muse for research synthesis, data validation, and slide drafting. Free tiers and student offers are listed in the event's AI Tools & Resources doc.
 
 ---
 
@@ -101,7 +98,6 @@ Adriel and Rohan work **fully in parallel** because Rohan builds against mock da
 
 - [ ] Laptop + charger, photo ID for check-in
 - [ ] GitHub account ready
-- [ ] Reply-all intro to the team (if not done) — or just find them at registration
 - [ ] Park: Constitution Plaza North (100 Kinsley St, follow arrows DOWN to levels 3/2/1) or South (109 Kinsley); overflow Morgan St Garage (55 Morgan St S)
 - [ ] Registration is on the 2nd floor
 
