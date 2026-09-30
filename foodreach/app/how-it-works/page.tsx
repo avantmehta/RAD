@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import {MapPin, ClipboardList, ListChecks, ShieldCheck, ArrowLeft} from 'lucide-react';
+import BrandHeader from '@/components/brand-header';
 
 export default function HowItWorks(){
- return <main className="howto-shell">
+ return <><header className="topbar"><BrandHeader/></header>
+ <main className="howto-shell">
   <Link href="/" className="howto-back"><ArrowLeft size={16}/> Back</Link>
   <div className="eyebrow">WHY HEARTFOOD</div>
   <h1>Nearby isn&apos;t always reachable.</h1>
@@ -44,4 +46,5 @@ export default function HowItWorks(){
    <Link href="/plan" className="landing-cta-secondary"><ClipboardList size={18}/> Enter my details</Link>
   </div>
  </main>
+ </>
 }
